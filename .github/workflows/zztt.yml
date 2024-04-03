@@ -29,10 +29,10 @@ jobs:
         uses: actions/cache@v4
         with:
           path: rcache
-          key: ${{ runner.os }}_rcache
+          key: ${{ runner.os }}-rcache
 
-			- name: only when no cache rbase and cran
-				if: steps.rcache.outputs.cache-hit != 'true'
+      - name: only when no cache rbase and cran
+        if: steps.rcache.outputs.cache-hit != 'true'
       ## HUGODOWN DEVTOOLS ONE-LINER
         run: |
           sudo apt-get install -y r-base && echo $(date)__rbase__ >> zsuccess.z
