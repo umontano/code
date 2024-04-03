@@ -28,7 +28,7 @@ jobs:
         id: rcache
         uses: actions/cache@v4
         with:
-          path: /*
+          path: rcache
           key: ${{ runner.os }}-rcache
 
       - name: only when no cache rbase and cran
@@ -37,7 +37,12 @@ jobs:
         run: |
           sudo apt-get install -y r-base && echo $(date)__rbase__ >> zsuccess.z
           sudo apt-get install -y r-cran-devtools r-cran-rmarkdown  && echo $(date)__rcran__ >> zsuccess.z
-          sudo R -e 'devtools::install_github("r-lib/hugodown")' && echo $(date)__SUCCESS_HUGODOWN__ >> zsuccess.z
+          #R -e 'devtools::install_github("r-lib/hugodown")' && echo $(date)__SUCCESS_HUGODOWN__ >> zsuccess.z
+          ## HUGODOWN INSTALL VIA R CMD
+          sudo apt-get install git
+          git clone https://github.com/r-lib/hugodown.git
+          R CMD INSTALL hugodown/ 2> zerror.z
+          rm -r hugodown/
 
       - name: render hugodown
         run: Rscript -e "rmarkdown::render('index.Rmd')"
