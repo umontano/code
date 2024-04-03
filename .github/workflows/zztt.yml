@@ -22,16 +22,25 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
+		## CACHE THE RMARDDOWN AND R DEVTOOLS
+   - name: Cache rmarkdown r devtools 
+    - uses: actions/checkout@v3
 
-      # Runs a single command using the runners shell
-      - name: install r and cran packs
+		## CONDITIONALLY R BASE AND PACKS INSTALL
+    - name: Cache rlang packs
+      id: rcache
+      uses: actions/cache@v4
+      with:
+        path: rcache
+        key: ${{ runner.os }}_rcache
+
+			- name: only when no cache rbase and cran
+				if: steps.rcache.outputs.cache-hit != 'true'
+      ## HUGODOWN DEVTOOLS ONE-LINER
         run: |
           sudo apt-get install -y r-base && echo $(date)__rbase__ >> zsuccess.z
           sudo apt-get install -y r-cran-devtools r-cran-rmarkdown  && echo $(date)__rcran__ >> zsuccess.z
-
-      - name: hugodown devtools install
-        run: |
-          sudo R -e 'devtools::install_github("r-lib/hugodown")' && echo __SUCCESS_HUGODOWN__ >> zsuccess.z
+          sudo R -e 'devtools::install_github("r-lib/hugodown")' && echo $(date)__SUCCESS_HUGODOWN__ >> zsuccess.z
 
       - name: render hugodown
         run: Rscript -e "rmarkdown::render('index.Rmd')"
