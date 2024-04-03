@@ -24,8 +24,16 @@ jobs:
       - uses: actions/checkout@v3
 
       # Runs a single command using the runners shell
-      - name: rcran one-liner
-        run: apt-cache search r-cran- >> zout.z 2> zerror.z
+      - name: install r and cran packs
+        run: |
+          apt-get install -y r-base
+          apt-get install -y r-cran-devtools
+          apt-get install -y r-cran-rmarkdown
+
+      - name: hugodown devtools install
+        run: |
+          R -e 'devtools::install_github("r-lib/hugodown")' && echo __SUCCESS_HUGODOWN__ > zsuccess.z
+
 
       # Runs a set of commands using the runners shell
       - name: multi_line
