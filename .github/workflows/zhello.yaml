@@ -1,17 +1,14 @@
-name: zhello test
+name: zhello_from_tutorial
+on:
+  push:
+    branches: main
 
- on:
-   push:
-     branches:
-       - main
-
- jobs:
-   build:
-     runs-on: ubuntu-latest
-
-     steps:
-       - name: Get Your Code
-         uses: actions/checkout@v2
+jobs:
+  zhellow:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Get Your Code
+        uses: actions/checkout@v3
 
        - name: Say Hello to the World
          run: echo "Hello, World!"
