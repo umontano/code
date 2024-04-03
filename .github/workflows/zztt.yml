@@ -22,17 +22,14 @@ jobs:
     steps:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
-		## CACHE THE RMARDDOWN AND R DEVTOOLS
-   - name: Cache rmarkdown r devtools 
-    - uses: actions/checkout@v3
-
-		## CONDITIONALLY R BASE AND PACKS INSTALL
-    - name: Cache rlang packs
-      id: rcache
-      uses: actions/cache@v4
-      with:
-        path: rcache
-        key: ${{ runner.os }}_rcache
+      ## CACHE THE RMARDDOWN AND R DEVTOOLS
+      ### CONDITIONALLY R BASE AND PACKS INSTALL
+      - name: Cache rlang packs
+        id: rcache
+        uses: actions/cache@v4
+        with:
+          path: rcache
+          key: ${{ runner.os }}_rcache
 
 			- name: only when no cache rbase and cran
 				if: steps.rcache.outputs.cache-hit != 'true'
