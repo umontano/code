@@ -3,7 +3,7 @@ title: "tttt02"
 author: "I2am"
 date: 2022-11-07
 output: hugodown::md_document
-rmd_hash: 25f04b6b457472c8
+rmd_hash: c868bf7ec974f0e0
 
 ---
 
@@ -20,4 +20,10 @@ This is is the second render.
 <!-- -->
 
 1.  No 02notes.
+
+<div class="highlight">
+
+<img src="figs/unnamed-chunk-1-1.png" width="700px" style="display: block; margin: auto;" />
+
+</div>
 
