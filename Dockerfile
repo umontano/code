@@ -1,8 +1,7 @@
 #custom-args: --platform=linux/arm64,linux/amd64 # multiple target architectures
 
-
 # Use ARMv7 base image with R and required dependencies
-FROM arm32v7/r-base:latest
+FROM ubuntu:latest
 
 # Set environment variables
 ENV R_HOME=/usr/lib/R
@@ -22,6 +21,7 @@ RUN apt-get update && \
         pandoc-citeproc \
         wget \
         neovim \
+        r-base \
 				r-cran-rmarkdown \
 				r-cran-remotes \
 				r-cran-downlit \
