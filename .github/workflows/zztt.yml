@@ -23,20 +23,24 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
       ## CACHE THE RMARDDOWN AND R DEVTOOLS
-      ### CONDITIONALLY R BASE AND PACKS INSTALL
+      #Cache R Language Installed Packages
       - name: Cache rlang packs
         id: rcache
         uses: actions/cache@v4
         with:
-          path: rcache
-          key: ${{ runner.os }}-rcache
+          path: |
+            ${{ env.R_LIBS_USER }}
+          key: ${{ runner.os }}-r-${{ hashFiles('**/DESCRIPTION') }}
+          restore-keys: |
+            ${{ runner.os }}-r-
+      ### CONDITIONALLY R BASE AND PACKS INSTALL
 
       - name: only when no cache rbase and cran
         if: steps.rcache.outputs.cache-hit != 'true'
       ## HUGODOWN DEVTOOLS ONE-LINER
         run: |
-          sudo apt-get install -y r-base && echo $(date)__rbase__ >> zsuccess.z
-          sudo apt-get install -y r-cran-rmarkdown  && echo $(date)__rcran__ >> zsuccess.z
+          sudo apt-get install -y r-base
+          sudo apt-get install -y r-cran-rmarkdown
           sudo apt-get install -y r-cran-remotes
           #sudo apt-get install -y r-cran-devtools
           ## hugodown missing dependencies
@@ -47,21 +51,10 @@ jobs:
           sudo apt-get install -y r-cran-whoami
 
       - name: hugodown devtools_remotes install
+        if: steps.rcache.outputs.cache-hit != 'true'
         run: sudo R -e 'remotes::install_github("r-lib/hugodown", dependencies = FALSE, upgrade = "never")' && echo $(date)__SUCCESS_HUGODOWN__ >> zsuccess.z
 
-      - name: build essentials
-        run: sudo apt-get install -y build-essential
-
-      ## HUGODOWN INSTALL VIA R CMD
-      - name: clone hugodown
-        run: |
-          test -d hugodown && rm -r hugodown/
-          git clone https://github.com/r-lib/hugodown.git
-      - name: r_cmd hugodown install
-        run: |
-          #R CMD INSTALL hugodown 2> zerror.z
-          test -d hugodown && rm -r hugodown/
-
+      ## HUGODOWN RMD RENDER
       - name: render Rmd file
         run: Rscript -e "rmarkdown::render('index.Rmd')"
 
@@ -71,7 +64,10 @@ jobs:
           git config --local user.email "actions@github.com"
           git config --local user.name "GitHub Actions"
           git add *.*
-          git commit -m 'zData updated' || echo "No changes to commit"
+          git commit -m 'actions workflow updated' || echo "No changes to commit"
           git push origin || echo "No changes to commit"
-      - name: Build Hugo
-        uses: lowply/build-hugo@v0.68.3
+      #- name: Build Hugo
+        #uses: lowply/build-hugo@v0.68.3
+#######################################
+#######################################
+#######################################
