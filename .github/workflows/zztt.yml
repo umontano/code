@@ -37,6 +37,12 @@ jobs:
         run: |
           sudo apt-get install -y r-base && echo $(date)__rbase__ >> zsuccess.z
           sudo apt-get install -y r-cran-devtools r-cran-rmarkdown  && echo $(date)__rcran__ >> zsuccess.z
+          ## hugodown missing dependencies
+          sudo apt-get install -y r-cran-downlit
+          sudo apt-get install -y r-cran-rcpptoml
+          sudo apt-get install -y r-cran-usethis
+          sudo apt-get install -y r-cran-whisker
+          sudo apt-get install -y r-cran-whoami
           #R -e 'devtools::install_github("r-lib/hugodown")' && echo $(date)__SUCCESS_HUGODOWN__ >> zsuccess.z
 
       ## HUGODOWN INSTALL VIA R CMD
