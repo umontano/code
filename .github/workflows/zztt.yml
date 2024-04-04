@@ -45,8 +45,8 @@ jobs:
           sudo apt-get install -y r-cran-whisker
           sudo apt-get install -y r-cran-whoami
 
-      - name: hugodown remotes install
-        run: R -e 'remotes::install_github("r-lib/hugodown")' && echo $(date)__SUCCESS_HUGODOWN__ >> zsuccess.z
+      - name: hugodown devtools_remotes install
+        run: R -e 'devtools::install_github("r-lib/hugodown")' && echo $(date)__SUCCESS_HUGODOWN__ >> zsuccess.z
 
       - name: build essentials
         run: sudo apt-get install -y build-essential
