@@ -46,14 +46,16 @@ jobs:
           #R -e 'devtools::install_github("r-lib/hugodown")' && echo $(date)__SUCCESS_HUGODOWN__ >> zsuccess.z
 
       ## HUGODOWN INSTALL VIA R CMD
+      - name: clone hugodown
+        run: |
+          rm -r hugodown/
+          git clone https://github.com/r-lib/hugodown.git
       - name: r_cmd hugodown install
         run: |
-          sudo apt-get install git
-          git clone https://github.com/r-lib/hugodown.git
-          R CMD INSTALL hugodown/ 2> zerror.z
+          R CMD INSTALL hugodown 2> zerror.z
           rm -r hugodown/
 
-      - name: render hugodown
+      - name: render Rmd file
         run: Rscript -e "rmarkdown::render('index.Rmd')"
 
       # Runs a set of commands using the runners shell
