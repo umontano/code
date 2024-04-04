@@ -18,6 +18,7 @@ Just dilling the ntes space.
 1. No 02notes.
 
 ```{r}
-plot(iris)
+plot(mtcars)
+head(iris)
 ```
 
