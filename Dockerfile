@@ -1,5 +1,42 @@
-# Use an official Alpine Linux as a base image
-FROM --platform=linux/arm/v7 alpine:latest
+#custom-args: --platform=linux/arm64,linux/amd64 # multiple target architectures
 
-# Update package lists and install necessary packages
-RUN apk add neovim
+
+# Use ARMv7 base image with R and required dependencies
+FROM arm32v7/r-base:latest
+
+# Set environment variables
+ENV R_HOME=/usr/lib/R
+ENV R_LIBS_USER=/usr/local/lib/R/site-library
+ENV TZ=UTC
+
+# Install system dependencies
+# Install required R packages
+## HUGODOWN DEVTOOLS ONE-LINER \
+## hugodown missing dependencies \
+RUN apt-get update && \
+    apt-get install -y \
+        libcurl4-openssl-dev \
+        libssl-dev \
+        libxml2-dev \
+        pandoc \
+        pandoc-citeproc \
+        wget \
+        neovim \
+				r-cran-rmarkdown \
+				r-cran-remotes \
+				r-cran-downlit \
+				r-cran-rcpptoml \
+				r-cran-usethis \
+				r-cran-whisker \
+				r-cran-whoami \
+        && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+
+# Install hugodown from GitHub
+RUN R -e 'remotes::install_github("r-lib/hugodown", dependencies = FALSE, upgrade = "never")'
+
+# Set the entry point to R console
+ENTRYPOINT ["R"]
+
