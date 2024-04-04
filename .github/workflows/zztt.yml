@@ -48,12 +48,12 @@ jobs:
       ## HUGODOWN INSTALL VIA R CMD
       - name: clone hugodown
         run: |
-          rm -r hugodown/
+          test -d hugodown && rm -r hugodown/
           git clone https://github.com/r-lib/hugodown.git
       - name: r_cmd hugodown install
         run: |
           R CMD INSTALL hugodown 2> zerror.z
-          rm -r hugodown/
+          test -d hugodown && rm -r hugodown/
 
       - name: render Rmd file
         run: Rscript -e "rmarkdown::render('index.Rmd')"
