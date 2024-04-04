@@ -31,6 +31,7 @@ jobs:
           path: |
             /usr/local/lib/R
             /usr/lib/R
+            ~/R
           key: ${{ runner.os }}-r-${{ hashFiles('**/DESCRIPTION') }}
           restore-keys: |
             ${{ runner.os }}-r-
