@@ -36,8 +36,9 @@ jobs:
       ## HUGODOWN DEVTOOLS ONE-LINER
         run: |
           sudo apt-get install -y r-base && echo $(date)__rbase__ >> zsuccess.z
-          sudo apt-get install -y r-cran-devtools r-cran-rmarkdown  && echo $(date)__rcran__ >> zsuccess.z
+          sudo apt-get install -y r-cran-rmarkdown  && echo $(date)__rcran__ >> zsuccess.z
           sudo apt-get install -y r-cran-remotes
+          #sudo apt-get install -y r-cran-devtools
           ## hugodown missing dependencies
           sudo apt-get install -y r-cran-downlit
           sudo apt-get install -y r-cran-rcpptoml
@@ -46,7 +47,7 @@ jobs:
           sudo apt-get install -y r-cran-whoami
 
       - name: hugodown devtools_remotes install
-        run: sudo R -e 'remotes::install_github("r-lib/hugodown")' && echo $(date)__SUCCESS_HUGODOWN__ >> zsuccess.z
+        run: sudo R -e 'remotes::install_github("r-lib/hugodown", dependencies = FALSE)' && echo $(date)__SUCCESS_HUGODOWN__ >> zsuccess.z
 
       - name: build essentials
         run: sudo apt-get install -y build-essential
