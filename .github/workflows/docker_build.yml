@@ -20,16 +20,12 @@ jobs:
         uses: docker/setup-buildx-action@v1
 
       - name: Build Docker container for ARMv7
-        run: docker buildx build --platform linux/arm/v7 -o type=local,dest=out.tar .
+        run: docker buildx build --platform linux/arm/v7 -t yourusername/yourimage:latest .
         working-directory: .
       
-      - name: Move Docker container tar file
-        run: mv out.tar /github/workspace
-        working-directory: .
-      
-      - name: Archive Docker container tar file
+      - name: Archive Docker container as artifact
         uses: actions/upload-artifact@v2
         with:
           name: docker-container
-          path: /github/workspace/out.tar
+          path: .
 
