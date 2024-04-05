@@ -13,6 +13,7 @@ RUN apt-get install -y \
     apt-get clean && \
     rm -rf /var/lib/apt/lists/*
 
+RUN R -e 'remotes::install_github("r-lib/hugodown", dependencies = FALSE, upgrade = "never")'
 ## CLONE HUGODOWN
 #RUN git clone https://github.com/r-lib/hugodown.git
 #RUN R CMD INSTALL hugodown/
