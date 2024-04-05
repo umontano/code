@@ -10,8 +10,7 @@ RUN apt-get install -y \
 				r-cran-whisker \
 				r-cran-whoami \
         && \
-    apt-get clean && \
-    rm -rf /var/lib/apt/lists/*
+    apt-get clean
 
 RUN R -e 'remotes::install_github("r-lib/hugodown", dependencies = FALSE, upgrade = "never")'
 ## CLONE HUGODOWN
