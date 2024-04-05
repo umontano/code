@@ -14,14 +14,8 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Set up QEMU
-        uses: docker/setup-qemu-action@v1
-
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v1
-
-      - name: Build Docker container for ARMv7
-        run: docker buildx build --platform linux/arm/v7 -t umontano/rhugo:latest .
+      - name: Build Docker container 
+        run: docker build -t umontano/rhugo:latest .
         working-directory: .
       
       - name: Archive Docker container as artifact
