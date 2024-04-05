@@ -14,7 +14,7 @@ RUN apt-get install -y \
     rm -rf /var/lib/apt/lists/*
 
 ## CLONE HUGODOWN
-RUN git clone https://github.com/r-lib/hugodown.git
-RUN R CMD INSTALL hugodown/
+#RUN git clone https://github.com/r-lib/hugodown.git
+#RUN R CMD INSTALL hugodown/
 # Set the entry point to R console
 CMD ["R"]
