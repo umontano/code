@@ -4,6 +4,7 @@
 #rstudio/r-base:4.0.4-focal
 FROM rocker/rstudio
 RUN apt-get install -y \
+				r-cran-remotes \
 				r-cran-downlit \
 				r-cran-rcpptoml \
 				r-cran-usethis \
