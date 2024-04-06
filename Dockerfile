@@ -3,15 +3,7 @@
 #rocker/r-ubuntu:20.04
 #rstudio/r-base:4.0.4-focal
 FROM rocker/rstudio
-RUN apt-get install -y \
-				r-cran-remotes \
-				r-cran-downlit \
-				r-cran-rcpptoml \
-				r-cran-usethis \
-				r-cran-whisker \
-				r-cran-whoami \
-        && \
-    apt-get clean
+RUN apt-get install -y r-cran-remotes && apt-get clean
 
 RUN R -e 'remotes::install_github("r-lib/hugodown")'
 ## CLONE HUGODOWN
