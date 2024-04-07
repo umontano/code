@@ -9,6 +9,7 @@ r-cran-tidytext \
 r-cran-ggplot2 \
 r-cran-ggally \
 r-cran-ggthemes \
+neovim \
 && \
 apt-get clean
 #RUN R -e \ 'packs <- c("tidytext", "remotes", "ggplot2", "ggbeeswarm"); out <- lapply(packs, function(x) {if (!require(x)) install.packages(x) })
