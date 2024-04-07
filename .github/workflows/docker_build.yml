@@ -19,8 +19,9 @@ jobs:
       - name: Run Docker container and save output to file
         run: |
           #docker run ckrusemd/bookdown-action "R -e 'print(installed.packages())'" > r_packages.txt
-          docker run ckrusemd/bookdown-action 'apt-cache search r-cran-' > r_crandocker.txt
-          head r_*.txt
+          #docker run ckrusemd/bookdown-action 'apt-cache search r-cran-' > r_crandocker.txt
+          docker run ckrusemd/bookdown-action ls
+          head r_*.txt || echo __no_text__
 
       - name: Commit and push output file
         run: |
