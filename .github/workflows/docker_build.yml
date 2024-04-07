@@ -18,7 +18,7 @@ jobs:
 
       - name: Run Docker container and save output to file
         run: |
-          docker run ckrusemd/bookdown-action R -e 'cat("Installed R packages:\n", paste(rownames(installed.packages()), collapse="\n"))' > r_packages.txt
+          docker run ckrusemd/bookdown-action R -e 'print(installed.packages())' > r_packages.txt
 
       - name: Commit and push output file
         run: |
