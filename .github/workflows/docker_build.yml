@@ -1,4 +1,4 @@
-me: List R Packages in Docker Container
+name: List R Packages in Docker Container
 
 on:
   push:
