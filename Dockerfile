@@ -3,7 +3,7 @@
 #rocker/r-ubuntu:20.04
 #rstudio/r-base:4.0.4-focal
 FROM ckrusemd/bookdown-action
-RUN R -e 'install.packages("remotes")'
+RUN R -e 'install.packages("ggbeeswarm", "remotes")'
 RUN R -e 'remotes::install_github("r-lib/hugodown")'
 ## CLONE HUGODOWN
 #RUN git clone https://github.com/r-lib/hugodown.git
