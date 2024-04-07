@@ -18,13 +18,15 @@ jobs:
 
       - name: Run Docker container and save output to file
         run: |
-          docker run ckrusemd/bookdown-action R -e 'print(installed.packages())' > r_packages.txt
+          #docker run ckrusemd/bookdown-action "R -e 'print(installed.packages())'" > r_packages.txt
+          docker run ckrusemd/bookdown-action 'apt-cache search r-cran-' > r_crandocker.txt
+          head r_*.txt
 
       - name: Commit and push output file
         run: |
           git config --local user.email "actions@github.com"
           git config --local user.name "GitHub Actions"
-          git add r_packages.txt
+          git add *.txt
           git commit -m "Add list of installed R packages"
           git push
 
