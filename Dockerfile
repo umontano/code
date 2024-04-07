@@ -4,8 +4,6 @@
 #rstudio/r-base:4.0.4-focal
 FROM ckrusemd/bookdown-action
 RUN R -e \ 'packs <- c("tidytext", "remotes", "ggplot2", "ggbeeswarm"); out <- lapply(packs, function(x) {if (!require(x)) install.packages(x) })
-'
-
 #RUN R -e 'install.packages("ggbeeswarm", "remotes")'
 RUN R -e 'remotes::install_github("r-lib/hugodown", dependencies = FALSE, upgrade = "never")'
 #RUN R -e 'remotes::install_github("r-lib/hugodown")'
