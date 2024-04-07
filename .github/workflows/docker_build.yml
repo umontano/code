@@ -1,34 +1,68 @@
-
-name: Build Docker Container and Push to Docker Hub
+me: List R Packages in Docker Container
 
 on:
   push:
     branches:
       - main
+  pull_request:
+    branches:
+      - main
 
 jobs:
-  build:
+  list_packages:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
+      - name: Checkout repository
         uses: actions/checkout@v2
 
-      - name: Build Docker container 
-        run: docker build -t umontano/rhugodown:latest .
-        working-directory: .
-      
-      - name: Archive Docker container as artifact
-        uses: actions/upload-artifact@v2
-        with:
-          name: docker-container
-          path: .
+      - name: Run Docker container and save output to file
+        run: |
+          docker run --rm -it ckrusemd/bookdown-action R -e 'cat("Installed R packages:\n", paste(rownames(installed.packages()), collapse="\n"))' > r_packages.txt
+        env:
+          DOCKER_HOST: tcp://localhost:2375
 
-      - name: Login to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
+      - name: Commit and push output file
+        run: |
+          git config --local user.email "actions@github.com"
+          git config --local user.name "GitHub Actions"
+          git add r_packages.txt
+          git commit -m "Add list of installed R packages"
+          git push
 
-      - name: Push Docker container to Docker Hub
-        run: docker push umontano/rhugodown:latest
+#
+#
+#
+#name: Build Docker Container and Push to Docker Hub
+#
+#on:
+  #push:
+    #branches:
+      #- main
+#
+#jobs:
+  #build:
+    #runs-on: ubuntu-latest
+#
+    #steps:
+      #- name: Checkout code
+        #uses: actions/checkout@v2
+#
+      #- name: Build Docker container 
+        #run: docker build -t umontano/rhugodown:latest .
+        #working-directory: .
+      #
+      #- name: Archive Docker container as artifact
+        #uses: actions/upload-artifact@v2
+        #with:
+          #name: docker-container
+          #path: .
+#
+      #- name: Login to Docker Hub
+        #uses: docker/login-action@v2
+        #with:
+          #username: ${{ secrets.DOCKER_USERNAME }}
+          #password: ${{ secrets.DOCKER_PASSWORD }}
+#
+      #- name: Push Docker container to Docker Hub
+        #run: docker push umontano/rhugodown:latest
