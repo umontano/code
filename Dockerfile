@@ -2,7 +2,7 @@
 #rocker/r-base:4.0.4
 #rocker/r-ubuntu:20.04
 #rstudio/r-base:4.0.4-focal
-FROM rocker/rstudio
+FROM ckrusemd/bookdown-action
 RUN apt-get install -y r-cran-remotes && apt-get clean
 
 RUN R -e 'remotes::install_github("r-lib/hugodown")'
