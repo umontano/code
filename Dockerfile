@@ -1,23 +1,41 @@
-#rhub/r-minimal:4.0.5
-#rocker/r-base:4.0.4
-#rocker/r-ubuntu:20.04
-#rstudio/r-base:4.0.4-focal
-FROM ckrusemd/bookdown-action
-RUN apt-get update && apt-get install -y \
-r-cran-remotes \
-r-cran-tidytext \
-r-cran-ggplot2 \
-r-cran-ggally \
-r-cran-ggthemes \
-neovim \
-&& \
-apt-get clean
-#RUN R -e \ 'packs <- c("tidytext", "remotes", "ggplot2", "ggbeeswarm"); out <- lapply(packs, function(x) {if (!require(x)) install.packages(x) })
-#RUN R -e 'install.packages("remotes")'
-RUN R -e 'remotes::install_github("r-lib/hugodown", dependencies = FALSE, upgrade = "never")'
-#RUN R -e 'remotes::install_github("r-lib/hugodown")'
-## CLONE HUGODOWN
-#RUN git clone https://github.com/r-lib/hugodown.git
-#RUN R CMD INSTALL hugodown/
+#custom-args: --platform=linux/arm64,linux/amd64 # multiple target architectures
+
+# Use ARMv7 base image with R and required dependencies
+FROM arm32v7/debian
+
+# Set environment variables
+ENV R_HOME=/usr/lib/R
+ENV R_LIBS_USER=/usr/local/lib/R/site-library
+ENV TZ=UTC
+RUN touch zzzz.zzz
+# Install system dependencies
+# Install required R packages
+## HUGODOWN DEVTOOLS ONE-LINER \
+## hugodown missing dependencies \
+#RUN apt-get update && \
+    #apt-get install -y \
+        #libcurl4-openssl-dev \
+        #libssl-dev \
+        #libxml2-dev \
+        #pandoc \
+        #pandoc-citeproc \
+        #wget \
+        #neovim \
+        #r-base \
+				#r-cran-rmarkdown \
+				#r-cran-remotes \
+				#r-cran-downlit \
+				#r-cran-rcpptoml \
+				#r-cran-usethis \
+				#r-cran-whisker \
+				#r-cran-whoami \
+        #&& \
+    #apt-get clean
+#
+
+# Install hugodown from GitHub
+#RUN R -e 'remotes::install_github("r-lib/hugodown", dependencies = FALSE, upgrade = "never")'
+
 # Set the entry point to R console
 CMD ["R"]
+

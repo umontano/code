@@ -1,37 +1,3 @@
-#name: List R Packages in Docker Container
-#
-#on:
-#push:
-#branches:
-#- main
-#pull_request:
-#branches:
-#- main
-#jobs:
-#list_packages:
-#runs-on: ubuntu-latest
-#
-#steps:
-#- name: Checkout repository
-#uses: actions/checkout@v2
-#
-#- name: Run Docker container and save output to file
-#run: |
-##docker run ckrusemd/bookdown-action "R -e 'print(installed.packages())'" > r_packages.txt
-##docker run ckrusemd/bookdown-action 'apt-cache search r-cran-' > r_crandocker.txt
-#docker run ckrusemd/bookdown-action sh -c ls
-#head r_*.txt || echo __no_text__
-#
-#- name: Commit and push output file
-#run: |
-#git config --local user.email "actions@github.com"
-#git config --local user.name "GitHub Actions"
-#git add *.txt || echo __no_est_files__
-#git commit -m "Add list of installed R packages"
-#git push
-#
-#
-
 
 name: Build Docker Container and Push to Docker Hub
 
@@ -48,8 +14,14 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Build Docker container 
-        run: docker build -t umontano/rhugodown:latest .
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v1
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Build Docker container for ARMv7
+        run: docker buildx build --platform linux/arm/v7 -t umontano/rhugo:latest .
         working-directory: .
       
       - name: Archive Docker container as artifact
@@ -65,4 +37,4 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Push Docker container to Docker Hub
-        run: docker push umontano/rhugodown:latest
+        run: docker push umontano/rhugo:latest
