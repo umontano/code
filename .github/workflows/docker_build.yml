@@ -21,7 +21,7 @@ jobs:
         uses: docker/setup-buildx-action@v1
 
       - name: Build Docker container for ARMv7
-        run: docker buildx build --platform linux/arm/v7 -t umontano/rhugo:latest .
+        run: docker buildx build --pull --platform linux/arm/v7 -t umontano/code:latest .
         working-directory: .
       
       - name: Archive Docker container as artifact
@@ -37,4 +37,4 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Push Docker container to Docker Hub
-        run: docker push umontano/rhugo:latest
+        run: docker push umontano/code:latest

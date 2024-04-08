@@ -12,26 +12,26 @@ RUN touch zzzz.zzz
 # Install required R packages
 ## HUGODOWN DEVTOOLS ONE-LINER \
 ## hugodown missing dependencies \
-#RUN apt-get update && \
-    #apt-get install -y \
-        #libcurl4-openssl-dev \
-        #libssl-dev \
-        #libxml2-dev \
-        #pandoc \
-        #pandoc-citeproc \
-        #wget \
-        #neovim \
-        #r-base \
-				#r-cran-rmarkdown \
-				#r-cran-remotes \
-				#r-cran-downlit \
-				#r-cran-rcpptoml \
-				#r-cran-usethis \
-				#r-cran-whisker \
-				#r-cran-whoami \
-        #&& \
-    #apt-get clean
-#
+RUN apt-get update && \
+    apt-get install -y \
+        libcurl4-openssl-dev \
+        libssl-dev \
+        libxml2-dev \
+        pandoc \
+        pandoc-citeproc \
+        wget \
+        neovim \
+        r-base \
+				r-cran-rmarkdown \
+				r-cran-remotes \
+				r-cran-downlit \
+				r-cran-rcpptoml \
+				r-cran-usethis \
+				r-cran-whisker \
+				r-cran-whoami \
+        && \
+    apt-get clean
+
 
 # Install hugodown from GitHub
 #RUN R -e 'remotes::install_github("r-lib/hugodown", dependencies = FALSE, upgrade = "never")'
