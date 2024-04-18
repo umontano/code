@@ -3,6 +3,7 @@
 FROM rocker/verse
 
 ## INTALLER
+RUN Rscript -e "if(!require('flextable')) install.packages('flextable')"
 RUN Rscript -e "if(!require('gtsummary')) install.packages('gtsummary')"
 RUN Rscript -e "if(!require('gt')) install.packages('gt')"
 RUN Rscript -e "if(!require('rmarkdown')) install.packages('rmarkdown')"
