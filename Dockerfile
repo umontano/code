@@ -1,9 +1,8 @@
 #custom-args: --platform=linux/arm64,linux/amd64 # multiple target architectures
-
 FROM rocker/verse
 
-## INTALLER
-RUN Rscript -e "if(!require('ggally')) install.packages('ggally')"
+## INTALLERS
+RUN Rscript -e "if(!require('GGally')) install.packages('GGally')"
 RUN Rscript -e "if(!require('tidytext')) install.packages('tidytext')"
 RUN Rscript -e "if(!require('ggbeeswarm')) install.packages('ggbeeswarm')"
 RUN Rscript -e "if(!require('flextable')) install.packages('flextable')"
