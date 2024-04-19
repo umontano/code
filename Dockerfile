@@ -13,4 +13,5 @@ RUN Rscript -e "if(!require('ggplot2')) install.packages('ggplot2')"
 RUN Rscript -e "if(!require('remotes')) install.packages('remotes')"
 RUN Rscript -e "remotes::install_github('r-lib/hugodown')"
 
+WORKDIR /app
 CMD ["R"]
