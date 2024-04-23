@@ -2,6 +2,7 @@
 FROM rocker/verse
 
 ## INTALLERS
+RUN Rscript -e "if(!require('forcats')) install.packages('gt')"
 RUN Rscript -e "if(!require('GGally')) install.packages('GGally')"
 RUN Rscript -e "if(!require('tidytext')) install.packages('tidytext')"
 RUN Rscript -e "if(!require('ggbeeswarm')) install.packages('ggbeeswarm')"
