@@ -13,5 +13,11 @@ RUN Rscript -e "if(!require('ggplot2')) install.packages('ggplot2')"
 RUN Rscript -e "if(!require('remotes')) install.packages('remotes')"
 RUN Rscript -e "remotes::install_github('r-lib/hugodown')"
 
+## INSTALL HUGO 0.80.0
+RUN wget https://github.com/gohugoio/hugo/releases/download/v0.80.0/hugo_0.80.0_Linux-64bit.tar.gz && \
+tar -zxvf hugo_0.80.0_Linux-64bit.tar.gz && \
+mv hugo /usr/local/bin/ && \
+rm -r hugo*
+
 WORKDIR /app
 CMD ["R"]
