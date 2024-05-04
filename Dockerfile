@@ -2,13 +2,20 @@
 FROM rocker/verse
 
 ## INTALLERS
-RUN common_packs=\
+ENV common_packs=\
 'ggcorrplot
 widyr
 ggbeeswarm
 gt
-gtsummary' &&\
-echo "$common_packs" | while read -r pack; do Rscript -e "if(!require('${pack}')) install.packages('${pack}')"; done
+gtsummary'
+
+RUN echo "$common_packs" |\
+while read -r pack; \
+do \
+Rscript -e "if(!require('${pack}')) install.packages('${pack}')"; \
+done
+#RUN Rscript -e "if(!require('ggcorrplot')) install.packages('ggcorrplot')"
+#RUN Rscript -e "if(!require('widyr')) install.packages('widyr')"
 #RUN Rscript -e "if(!require('forcats')) install.packages('forcats')"
 #RUN Rscript -e "if(!require('GGally')) install.packages('GGally')"
 #RUN Rscript -e "if(!require('tidytext')) install.packages('tidytext')"
