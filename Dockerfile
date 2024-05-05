@@ -1,7 +1,7 @@
 #custom-args: --platform=linux/arm64,linux/amd64 # multiple target architectures
 FROM rocker/verse
 
-ENV common_packs='ggcorrplot widyr ggbeeswarm gt gtsummary'
+ENV common_packs='psych ggcorrplot widyr ggbeeswarm gt gtsummary'
 RUN for pack in "$common_packs"; do Rscript -e "if(!require('${pack}')) install.packages('${pack}')"; done
 ## INSTALLERS
 RUN Rscript -e "if(!require('forcats')) install.packages('forcats')"
