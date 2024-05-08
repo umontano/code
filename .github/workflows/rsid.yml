@@ -13,6 +13,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: test container
+        run: docker image inspect umontano/rsid --format="ignore me"
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
 
@@ -20,7 +29,7 @@ jobs:
         uses: docker/setup-buildx-action@v1
 
       - name: Build Docker container for ARMv7
-        run: docker buildx build --pull --platform linux/arm/v7 -t umontano/rsid .
+        run: docker buildx build --pull --platform linux/arm/v7,linux/arm64/v8,linux/arm/v5,linux/386,linux/amd64 -t umontano/rsid:latest rsid.dockerfile
         working-directory: .
       
       - name: Archive Docker container as artifact
@@ -28,12 +37,6 @@ jobs:
         with:
           name: docker-container
           path: .
-
-      - name: Login to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Push Docker container to Docker Hub
         run: docker push umontano/code:latest
