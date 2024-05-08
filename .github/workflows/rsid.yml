@@ -1,4 +1,4 @@
-name: Build Docker Container and Push to Docker Hub
+name: rsid BUILD AND PUSH DOCKER IMAGE
 
 on:
   push:
@@ -18,9 +18,6 @@ jobs:
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
-
-      - name: test container
-        run: docker image inspect umontano/rsid --format="ignore me"
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v1
