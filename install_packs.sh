@@ -1,13 +1,4 @@
 #!/bin/sh
-program_name=$1
-if command -v "$program_name" >/dev/null 2>&1; then
-    echo "$program_name is installed."
-else
-    echo "$program_name is not installed."
-fi
-exit 0
-
-#!/bin/sh
 arch_dependencies=\
 'icu
 gcc-fortran'
@@ -43,8 +34,8 @@ precompiled_repos=\
 
 install_with_apt()
 {
-apt-get update
-apt-get clean
+	apt-get update
+	apt-get clean
 	apt-get -y --no-install-recommends install r-base
 #apt-get install -y r-base-dev || echo __APTTED__"$pack"
 #apt-get install -y r-recommended || echo __APTTED__"$pack"
@@ -54,15 +45,19 @@ apt-get clean || echo __APTTED__"$pack"
 #dpkg --configure -a || echo __APTTED__"$pack"
 #apt --fix-broken install -y || echo __APTTED__"$pack"
 
-
 echo "$cran_packs" | while read -r pack
 do
-	apt-get -y --no-install-recommends install r-cran-"$pack" || echo __APTTED__"$pack"
-	apt-get clean || echo __APTTED__"$pack"
-	#apt-get autoclean || echo __APTTED__"$pack"
-	#apt-get autoremove -y || echo __APTTED__"$pack"
-	#dpkg --configure -a || echo __APTTED__"$pack"
-	#apt --fix-broken install -y || echo __APTTED__"$pack"
+	if command -v "$pack" >/dev/null 2>&1; then
+	    echo "$pack is installed."
+	else
+	    echo "$pack is not installed."
+		apt-get -y --no-install-recommends install r-cran-"$pack" || echo __APTTED__"$pack"
+		apt-get clean || echo __APTTED__"$pack"
+		#apt-get autoclean || echo __APTTED__"$pack"
+		#apt-get autoremove -y || echo __APTTED__"$pack"
+		#dpkg --configure -a || echo __APTTED__"$pack"
+		#apt --fix-broken install -y || echo __APTTED__"$pack"
+	fi
 done
 }
 
@@ -76,7 +71,6 @@ done
 
 Rscript -e "if(!require(hugodown)) remotes::install_github('r-lib/hugodown', update = 'never')"
 }
-
 
 ## CHECK DEBUG FLAG
 if test "$1" = "debug"
