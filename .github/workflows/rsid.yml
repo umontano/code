@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    paths: **rsid.*
+  workflow_dispatch:
 
 jobs:
   build:
@@ -36,4 +38,4 @@ jobs:
           path: .
 
       - name: Push Docker container to Docker Hub
-        run: docker push umontano/code:latest
+        run: docker push umontano/rsid:latest
