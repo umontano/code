@@ -21,23 +21,29 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
 
-      - name: Build Docker container for ARMv7
-        run: echo 'FROM alpine' | docker buildx build --pull --platform linux/arm/v7 -t umontano/rsid:latest .
+      - name: Login to Docker Hub
+        uses: docker/login-action@v2
+        with:
+          username: ${{ secrets.DOCKER_USERNAME }}
+          password: ${{ secrets.DOCKER_PASSWORD }}
+
+      #- name: Build Docker container for ARMv7
+        #run: docker buildx build -f rsid.dockerfile --push --pull --platform linux/arm/v7 -t umontano/rsid:latest .
         #,linux/arm64/v8,linux/arm/v5,linux/386,linux/amd64 
         #run: docker buildx build -f rsid.dockerfile --pull --platform linux/arm/v7,linux/arm64/v8,linux/arm/v5,linux/386,linux/amd64 -t umontano/rsid:latest .
-        working-directory: .
+      - name: Build and push Docker image
+        id: docker_build
+        run: |
+          docker build . -t umontano/code:latest <<EOF
+          FROM alpine:latest
+          CMD ["bash"]
+          EOF
       
       - name: Archive Docker container as artifact
         uses: actions/upload-artifact@v4
         with:
           name: docker-container
           path: .
-
-      - name: Login to Docker Hub
-        uses: docker/login-action@v2
-        with:
-          username: ${{ secrets.DOCKER_USERNAME }}
-          password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Push Docker container to Docker Hub
         run: docker push umontano/rsid:latest
