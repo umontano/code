@@ -4,7 +4,7 @@ on:
   push:
     branches:
       - main
-    paths: **rsid.*
+    paths: '**rsid.*'
   workflow_dispatch:
 
 jobs:
