@@ -22,7 +22,7 @@ jobs:
         uses: docker/setup-buildx-action@v1
 
       - name: Build Docker container for ARMv7
-        run: echo 'FROM alpine' | docker buildx build dockerfile --pull --platform linux/arm/v7 -t umontano/rsid:latest .
+        run: echo 'FROM alpine' | docker buildx build --pull --platform linux/arm/v7 -t umontano/rsid:latest .
         #,linux/arm64/v8,linux/arm/v5,linux/386,linux/amd64 
         #run: docker buildx build -f rsid.dockerfile --pull --platform linux/arm/v7,linux/arm64/v8,linux/arm/v5,linux/386,linux/amd64 -t umontano/rsid:latest .
         working-directory: .
