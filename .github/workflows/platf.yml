@@ -7,16 +7,13 @@ on:
   workflow_dispatch:                          
 jobs:                                         
   build:                                      
-    runs-on: ubuntu-latest                    
-                                              
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code                   
         uses: actions/checkout@v4
 
-
       - name: Build & push Docker image
         uses: mr-smithers-excellent/docker-build-push@v6
-      
         with:
           image: umontano/rsid
           registry: docker.io
