@@ -32,7 +32,7 @@ jobs:
         working-directory: .
       
       - name: Archive Docker container as artifact
-        uses: actions/upload-artifact@v2
+        uses: actions/upload-artifact@v4
         with:
           name: docker-container
           path: .
