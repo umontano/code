@@ -90,9 +90,6 @@ else
 	install_with_apt
 	require_conditional_install
 fi
-install.packages('tinytex')
-tinytex::install_tinytex()
-
 
 apt-get clean
 
