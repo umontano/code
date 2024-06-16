@@ -9,7 +9,9 @@ flextable
 reactable'
 
 cran_packs=\
-'shiny
+'erm
+tinytex
+shiny
 rmarkdown
 tidyverse
 tidytext
@@ -27,7 +29,9 @@ common_packs=\
 widyr
 ggbeeswarm
 gt
-gtsummary'
+gtsummary
+tinytex'
+
 
 precompiled_repos=\
 "repos = c('https://apache.r-universe.dev', 'https://cloud.r-project.org', 'https://ddsjoberg.r-universe.dev')"
@@ -47,11 +51,12 @@ apt-get clean || echo __APTTED__"$pack"
 
 echo "$cran_packs" | while read -r pack
 do
+    pack=r-cran-"$pack"
 	if command -v "$pack" >/dev/null 2>&1; then
 	    echo "$pack is installed."
 	else
 	    echo "$pack is not installed."
-		apt-get -y --no-install-recommends install r-cran-"$pack" || echo __APTTED__"$pack"
+		apt-get -y --no-install-recommends install "$pack" || echo __APTTED__"$pack"
 		apt-get clean || echo __APTTED__"$pack"
 		#apt-get autoclean || echo __APTTED__"$pack"
 		#apt-get autoremove -y || echo __APTTED__"$pack"
@@ -69,7 +74,8 @@ do
 	Rscript -e "if(!require('${pack}')) install.packages('${pack}', ${precompiled_repos})"
 done
 
-Rscript -e "if(!require(hugodown)) remotes::install_github('r-lib/hugodown', update = 'never')"
+	Rscript -e "tinytex::install_tinytex()"
+	Rscript -e "if(!require(hugodown)) remotes::install_github('r-lib/hugodown', update = 'never')"
 }
 
 ## CHECK DEBUG FLAG
@@ -84,6 +90,9 @@ else
 	install_with_apt
 	require_conditional_install
 fi
+install.packages('tinytex')
+tinytex::install_tinytex()
+
 
 apt-get clean
 
