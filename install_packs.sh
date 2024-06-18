@@ -1,4 +1,7 @@
 #!/bin/sh
+debian_common=\
+'pandoc'
+
 arch_dependencies=\
 'icu
 gcc-fortran'
@@ -48,6 +51,14 @@ apt-get clean || echo __APTTED__"$pack"
 #apt-get autoremove -y || echo __APTTED__"$pack"
 #dpkg --configure -a || echo __APTTED__"$pack"
 #apt --fix-broken install -y || echo __APTTED__"$pack"
+echo "$debian_common" | while read -r pack
+do 
+	echo __DEBIAN_TO_I__"$pack"
+	apt-get -y install "$pack" || echo __DEBIAN_INSTALLED__"$pack"
+	apt-get clean
+done
+
+
 
 echo "$cran_packs" | while read -r pack
 do
