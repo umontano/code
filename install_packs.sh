@@ -17,7 +17,9 @@ flextable
 reactable'
 
 cran_packs=\
-'erm
+'lavaan
+semtools
+erm
 tinytex
 shiny
 rmarkdown
@@ -33,7 +35,9 @@ cowplot
 gridExtra'
 
 common_packs=\
-'ggcorrplot
+'mirt
+ggmirt
+ggcorrplot
 widyr
 ggbeeswarm
 gt
@@ -81,8 +85,7 @@ do
 	#apt-get clean
 done
 
-
-
+## INSTALL R LIBRARIES
 echo "$cran_packs" | while read -r pack
 do
     pack=r-cran-"$pack"
