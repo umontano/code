@@ -24,7 +24,8 @@ flextable
 reactable'
 
 cran_packs=\
-'kableextra
+'lme4
+kableextra
 ggally
 semplot
 evaluate
@@ -127,7 +128,6 @@ do
 done
 
 	Rscript -e "if(!require(hugodown)) remotes::install_github('r-lib/hugodown', update = 'never')"
-	Rscript -e "tinytex::install_tinytex(force= TRUE)"
 	Rscript -e "if(!require(ggmirt)) remotes::install_github('masurp/ggmirt', update = 'never')"
 }
 
@@ -144,7 +144,9 @@ else
 	require_conditional_install
 fi
 
-#Rscript -e "tinytex::install_tinytex(force= TRUE)"
+## INSTALL TINYTEX ONLY IF IT IS NOT INSTALLED WHICH IS MEANT BY THE TEX FLAG
+test "$1" != 'notex' && Rscript -e "tinytex::install_tinytex(force= TRUE)"
+
 apt-get autoremove -y
 apt-get clean
 ## arm
