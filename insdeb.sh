@@ -1,6 +1,9 @@
 #!/bin/sh
+## POSITIONAL PARAMETER EXECUTE OPTIONS: build force github
 precompiled_cran_packs=\
 '
+ggthemes
+mice
 ggtext
 ragg
 thematic
@@ -38,16 +41,28 @@ rsconnect
 
 noncompiled_source_rpacks=\
 '
+chromote
 webshot2
 broom.helpers
-showtext
-quanteda
 report
-mirt
 ggcorrplot
 widyr
 gt
 gtsummary
+'
+needs_compilation_r_packages=\
+'
+missForest
+quanteda
+showtext
+mirt
+'
+
+
+force_reinstal_within_r_packages_list=\
+'
+ggplot2
+broom
 '
 
 precompiled_repos=\
@@ -150,7 +165,7 @@ check_cran_available_and_install()
 
 requiere_compile_rsource_install()
 {
-	for each_rsource in $(echo "$noncompiled_source_rpacks" | tr '\n' ' ')
+	for each_rsource in $noncompiled_source_rpacks
 	do
 		echo _
 		echo ___RSCIPT_INS_"$each_rsource"___
@@ -159,10 +174,29 @@ requiere_compile_rsource_install()
 		echo ___DONE_INSTALLING_"$each_rsource"___
 		echo ____________
 	done
+}
+
+
+requiere_needs_compilation_r_packages_install()
+{
+	for each_rsource in $needs_compilation_r_packages
+	do
+		echo _
+		echo ___RSCIPT_INS_"$each_rsource"___
+		#Rscript -e "if(!require('${each_rsource}')) install.packages('${each_rsource}', ${precompiled_repos}, dependencies = c('Depends'))"
+		Rscript -e "if(!require('${each_rsource}')) install.packages('${each_rsource}', ${precompiled_repos})"
+		echo ___DONE_INSTALLING_"$each_rsource"___
+		echo ____________
+	done
+}
+
+require_remotes_github_install_fn()
+{
+	echo ___GITHUB_REMOTES_INSTALL___
 	## INSTALL TINYTEX ONLY IF HUGODOWN R PACKAGE IS NOT INSTALLED
 	Rscript -e "if(!require(hugodown)) tinytex::install_tinytex(force= TRUE)"
 	## INSTALL WITH REMOTES
-	Rscript -e "if(! require(ggmirt)) remotes::install_github('masurp/ggmirt', update = 'never')"
+	Rscript -e "if(!require(ggmirt)) remotes::install_github('masurp/ggmirt', update = 'never')"
 	Rscript -e "if(!require(hugodown)) remotes::install_github('r-lib/hugodown', update = 'never')"
 	#https://github.com/jalvesaq/colorout
 	#https://github.com/jalvesaq/colorout
@@ -170,29 +204,54 @@ requiere_compile_rsource_install()
 	Rscript -e "if(! require(colorout)) remotes::install_github('jalvesaq/colorout', update = 'never')"
 }
 
+force_reinstall_rpacks()
+{
+	for each_reinstallee in $force_reinstal_within_r_packages_list
+	do
+		echo _
+		echo ___FORCE REINSTALL_"$each_reinstallee"___
+		Rscript -e "install.packages('${each_reinstallee}', ${precompiled_repos})"
+		echo ___DONE_REINS_"$each_reinstallee"___
+		echo ____________
+	done
+}
+
 everything_installing()
 {
 	install_debian_apps
 	check_cran_available_and_install
 	requiere_compile_rsource_install
+	requiere_needs_compilation_r_packages_install
+	require_remotes_github_install_fn
+	force_reinstall_rpacks
 	grep -q 'colorout' ~/.Rprofile && echo ___COLOROUT_FOUND___ || echo 'library(colorout)' >> ~/.Rprofile
+	apt-get autoremove -y
+	apt-get clean
 }
 
-## CHECK DEBUG FLAG
-if test "$1" = "build"
-then
-    echo "The positional argument is 'build'"
-	echo ___BUILD_FLAG___
-	requiere_compile_rsource_install
-else
-    echo "The positional argument is not 'build'"
-	echo ___NO_FLAG___
-	everything_installing
-fi
 
+##################################################
+## DEFINITION OF SHORHAND FUNCTIONS
+##################################################
+build() { echo '___BUILD____'; requiere_compile_rsource_install; requiere_needs_compilation_r_packages_install; }
+force() { echo '___FORCE____'; force_reinstall_rpacks; }
+github() { echo '___GITHUB____'; require_remotes_github_install_fn; }
+
+## CHEKING WHETHER THERE IS A FLAG AND EXECUTE ONLY SUCH FLAG
+rm ~/.Rprofile 
+if test -z $1
+then
+	echo ___no_INPUT____
+	echo ___NO_FLAG___
+	echo ___INSTALLING_EVERYTHIHG____
+	everything_installing
+else
+	echo ___BUILD_FLAG___
+	echo "$1"____THE_POSITIONAL_ARGUMENT_WILL_BE_CALLED___"$1"
+	## CALL THE SHORTHAND ALIASING FUNCTION
+	$1
+	## ADD COLOR TO  LOGIN PROFILE
+	grep -q 'colorout' ~/.Rprofile && echo ___COLOROUT_FOUND___ || echo 'library(colorout)' >> ~/.Rprofile
+fi
 ## INSTALL TINYTEX ONLY IF IT IS NOT INSTALLED WHICH IS MEANT BY THE TEX FLAG
 #test "$1" != 'notex' && Rscript -e "tinytex::install_tinytex(force= TRUE)"
-
-apt-get autoremove -y
-apt-get clean
-
