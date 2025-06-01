@@ -52,15 +52,9 @@ gtsummary
 '
 needs_compilation_r_packages=\
 '
-<<<<<<< HEAD
 showtext
 missForest
 quanteda
-=======
-missForest
-quanteda
-showtext
->>>>>>> 78fb85af59dc934dcdea52525a2c1ffdf8428022
 mirt
 '
 
