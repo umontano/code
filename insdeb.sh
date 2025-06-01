@@ -52,9 +52,9 @@ gtsummary
 '
 needs_compilation_r_packages=\
 '
+showtext
 missForest
 quanteda
-showtext
 mirt
 '
 
@@ -73,7 +73,11 @@ if(!require(ggmirt)) remotes::install_github('masurp/ggmirt', update = 'never')"
 
 #* deb: libcurl4-openssl-dev (Debian, Ubuntu, etc)
 #* rpm: libcurl-devel (Fedora, CentOS, RHEL)
+## SHOWTEXT MISSING FONTS
+#"sudo apt-get install libfreetype6-dev"
 debian_common='
+libfreetype6-dev
+libfreetype6
 apt-utils
 texlive-pictures
 lmodern
