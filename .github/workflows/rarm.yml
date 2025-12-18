@@ -1,10 +1,10 @@
-name: r on debian 12 arm
+name: r on debian 12 bookworm arm
 
 on:
   push:
     branches: [main]
     paths:
-      - 'readme.md'
+      - 'README.md'
 
 jobs:
   docker:
