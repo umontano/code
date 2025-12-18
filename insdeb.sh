@@ -2,6 +2,14 @@
 ## POSITIONAL PARAMETER EXECUTE OPTIONS: build force github
 precompiled_cran_packs=\
 '
+BH
+rstan
+rstanarm
+rstantools
+BayesFactor
+bh
+mlr
+ranger
 ggthemes
 mice
 ggtext
@@ -41,6 +49,8 @@ rsconnect
 
 noncompiled_source_rpacks=\
 '
+bayesrules
+tuneRanger
 chromote
 webshot2
 broom.helpers
@@ -50,6 +60,7 @@ widyr
 gt
 gtsummary
 '
+
 needs_compilation_r_packages=\
 '
 showtext
@@ -76,6 +87,19 @@ if(!require(ggmirt)) remotes::install_github('masurp/ggmirt', update = 'never')"
 ## SHOWTEXT MISSING FONTS
 #"sudo apt-get install libfreetype6-dev"
 debian_common='
+poppler-utils
+fastboot
+adb
+sqlite3
+rsync
+openssh-server
+curl
+jq
+neovim
+vim
+aspell
+hugo
+libboost-all-dev
 libfreetype6-dev
 libfreetype6
 apt-utils

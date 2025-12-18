@@ -1,9 +1,10 @@
-name: ci
+name: r on debian 12 arm
 
 on:
   push:
-    branches:
-      - "main"
+    branches: [main]
+    paths:
+      - 'readme.md'
 
 jobs:
   docker:
@@ -15,11 +16,20 @@ jobs:
         uses: docker/setup-qemu-action@v3
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
+
       - name: Login to Docker Hub
         uses: docker/login-action@v3
         with:
           username: ${{ secrets.DOCKER_USERNAME }}
           password: ${{ secrets.DOCKER_PASSWORD }}
+
+      - name: Login to GitHub Container Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ghcr.io
+          username: umontano
+          password: ${{ secrets.GH_PAT }}
+
       - name: Build and push
         uses: docker/build-push-action@v5
         with:
@@ -28,5 +38,7 @@ jobs:
 #--platform linux/arm/v7
 #,linux/arm64/v8,linux/arm/v5,linux/386,linux/amd64
           #linux/arm64
+          tags: |
+            umontano/rarm:latest
+            ghcr.io/umontano/rarm:latest
           push: true
-          tags: umontano/rarm:latest
